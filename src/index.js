@@ -72,8 +72,14 @@ const renderInfo = (obj) => {
 		document.querySelector('tbody').appendChild(tr);
 	});
 };
-const generateDelay = () => Math.ceil(Math.random() * 6 + 4) * 1000;
-const mock = new MockAdapter(axios, { delayResponse: generateDelay() });
+
+const renderAll = () => {
+	movingObjects.forEach((el) => {
+		renderInfo(el);
+	});
+};
+
+const generateDelay = () => Math.floor(Math.random() * 5 + 4) * 1000;
 
 const getAndRenderData = (el) => {
 	axios.get('/objects').then((response) => {
@@ -83,9 +89,10 @@ const getAndRenderData = (el) => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-	mock.onGet('/objects').reply(200, movingObjects);
-	getAndRenderData(0);
+	renderAll();
 	document.querySelector('select').addEventListener('change', (e) => {
+		const mock = new MockAdapter(axios, { delayResponse: generateDelay() });
+		mock.onGet('/objects').reply(200, movingObjects);
 		getAndRenderData(e.target.value);
 		setInterval(() => {
 			getAndRenderData(e.target.value);
