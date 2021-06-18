@@ -73,7 +73,7 @@ const renderInfo = (obj) => {
 	});
 };
 
-const renderAll = () => {
+const renderAllObjectsInfo = () => {
 	movingObjects.forEach((el) => {
 		renderInfo(el);
 	});
@@ -89,7 +89,7 @@ const getAndRenderData = (el) => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-	renderAll();
+	renderAllObjectsInfo();
 	document.querySelector('select').addEventListener('change', (e) => {
 		const mock = new MockAdapter(axios, { delayResponse: generateDelay() });
 		mock.onGet('/objects').reply(200, movingObjects);
